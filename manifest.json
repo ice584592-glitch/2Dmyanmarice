@@ -1,0 +1,16 @@
+{
+  "name": "Myanmar 2D 3D Live",
+  "short_name": "MM 2D3D",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#090d16",
+  "theme_color": "#f59e0b",
+  "description": "Myanmar 2D 3D Live Results Application",
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
