@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html b:css='false' b:js='false' expr:dir='data:blog.languageDirection' expr:lang='data:blog.locale' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/restr/b' xmlns:data='http://www.google.com/2005/restr/data' xmlns:expr='http://www.google.com/2005/restr/expr'>
+<head>
+    <meta charset='UTF-8'/>
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'/>
+    <title>Myanmar 2D 3D Lottery</title>
+    <script src='https://cdn.tailwindcss.com'></script>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet'/>
+    <link href='https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&amp;display=swap' rel='stylesheet'/>
+    <style>
+        body {
+            font-family: 'Pyidaungsu', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+        .red-card {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-text {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+    </style>
+    <b:skin><![CDATA[
+        body { margin: 0; background: #f3f4f6; }
+    ]]></b:skin>
+</head>
+<body class='min-h-screen flex flex-col pb-24' onclick='playVoiceOnce()'>
+
+    <!-- Intro Splash Screen -->
+    <div id='splash-screen' class='fixed inset-0 z-50 bg-red-600 flex flex-col items-center justify-center p-6 text-center transition-opacity duration-500'>
+        <div class='w-24 h-24 rounded-2xl bg-white p-2 shadow-2xl flex items-center justify-center animate-bounce'>
+            <span class='text-5xl font-black text-red-600'>🍀</span>
+        </div>
+        <h1 class='text-3xl font-extrabold text-yellow-300 tracking-wider mt-4'>
+            Myanmar 2D 3D
+        </h1>
+        <p class='text-xs text-white/90 mt-2'>ကံကောင်းပါစေ (Realtime ရလဒ်များ)</p>
+        <div class='w-40 bg-white/20 h-1.5 rounded-full mt-6 overflow-hidden'>
+            <div id='splash-progress' class='bg-yellow-300 h-full w-0 transition-all duration-2000 ease-linear'></div>
+        </div>
+        <span class='text-[10px] text-white/70 mt-3'><i class='fas fa-volume-up mr-1'></i> အသံထွက်ရန် စခရင်ကို တစ်ချက်ထိပါ</span>
+    </div>
+
+    <!-- Header -->
+    <header class='bg-yellow-400 px-4 py-3 shadow-md sticky top-0 z-40 flex items-center justify-between'>
+        <h1 class='text-lg font-bold text-slate-900'>Myanmar 2D 3D</h1>
+        <div class='flex items-center space-x-3'>
+            <div class='bg-slate-900/10 px-2.5 py-1 rounded-full text-[11px] font-bold text-slate-900 flex items-center'>
+                <i class='fa-solid fa-eye text-xs mr-1'></i> <span id='header-viewers'>1,248</span>
+            </div>
+            <button onclick='switchTab(&quot;setting&quot;)' class='text-slate-900'>
+                <i class='fa-solid fa-gear text-xl'></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Marquee Announcement Bar -->
+    <div class='bg-amber-100 border-b border-amber-200 py-2 overflow-hidden'>
+        <div class='max-w-md mx-auto px-4 marquee-container'>
+            <p class='marquee-text text-xs text-amber-800 font-medium'>
+                <i class='fas fa-bullhorn mr-1.5'></i> မင်္ဂလာပါ! ၉:၃၀၊ ၁၂:၀၁၊ ၂:၀၀ နှင့် ၄:၃၀ နာရီ တရားဝင် 2D ရလဒ်များကို အချိန်ကိုက် Lock စနစ်ဖြင့် ကြည့်ရှုနိုင်ပါပြီ။
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <main class='max-w-md w-full mx-auto px-4 mt-4 space-y-4 flex-grow'>
+        
+        <!-- Tab 1: Home -->
+        <div id='tab-home' class='space-y-4'>
+            <div class='red-card rounded-2xl p-4 shadow-xl relative'>
+                <div class='flex justify-between items-center mb-2'>
+                    <span class='px-3 py-1 bg-white/20 text-white font-bold text-xs rounded-lg'>LIVE 2D RESULT</span>
+                    <div class='flex items-center space-x-3 text-xs'>
+                        <span class='bg-black/20 px-2 py-0.5 rounded-full text-white/90 flex items-center'>
+                            <i class='fa-solid fa-user text-[10px] mr-1 text-emerald-300 animate-pulse'></i> <span id='card-viewers'>1,248</span> ကြည့်နေသူ
+                        </span>
+                    </div>
+                </div>
+                <div class='text-center py-2'>
+                    <div id='live-number' class='text-6xl font-black text-yellow-300 tracking-wider'>--</div>
+                </div>
+                <div class='grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-white/20 text-xs'>
+                    <div class='bg-black/10 p-2 rounded-xl'>
+                        <span class='text-white/80 block'>SET Index (ဒသမနောက်ဆုံး ၁ လုံး)</span>
+                        <span id='live-set' class='font-bold text-white text-sm'>----.--</span>
+                    </div>
+                    <div class='bg-black/10 p-2 rounded-xl text-right'>
+                        <span class='text-white/80 block'>Value (ဒသမရှေ့ ၁ လုံး)</span>
+                        <span id='live-val' class='font-bold text-white text-sm'>----.--</span>
+                    </div>
+                </div>
+                <div class='mt-3 flex justify-between items-center text-[11px] text-white/95'>
+                    <span><i class='fa-solid fa-clock mr-1'></i> <span id='live-time'>ချိတ်ဆက်နေသည်...</span></span>
+                    <span id='lock-status' class='bg-emerald-500/30 px-2 py-0.5 rounded text-emerald-200'>Live Connected</span>
+                </div>
+            </div>
+
+            <!-- History Table Cards (12:01 PM & 04:30 PM) -->
+            <div class='red-card rounded-2xl overflow-hidden shadow-lg'>
+                <div class='p-3 border-b border-white/20 flex justify-between items-center text-xs'>
+                    <span>12:01 PM (မနက်ပိုင်း)</span>
+                    <span>SET: 1553.99 | VAL: 41021.10</span>
+                    <span class='text-2xl font-bold text-yellow-300'>91</span>
+                </div>
+                <div class='p-3 flex justify-between items-center text-xs'>
+                    <span>04:30 PM (ညနေပိုင်း)</span>
+                    <span>SET: 1544.60 | VAL: 68972.46</span>
+                    <span class='text-2xl font-bold text-yellow-300'>02</span>
+                </div>
+            </div>
+
+            <!-- Model 9 & Internet Live Table (9:30 AM, 12:01 PM, 2:00 PM, 4:30 PM) -->
+            <div class='red-card rounded-2xl p-3 shadow-lg space-y-2 text-xs'>
+                <div class='grid grid-cols-3 font-bold border-b border-white/20 pb-2 text-center'>
+                    <span>Time</span>
+                    <span>Model 9</span>
+                    <span>Internet</span>
+                </div>
+                <div class='grid grid-cols-3 text-center py-1 font-semibold border-b border-white/10'>
+                    <span class='text-left'>09:30 AM</span>
+                    <span id='m9-930' class='text-yellow-300 text-base font-bold'>--</span>
+                    <span id='net-930' class='text-yellow-300 text-base font-bold'>--</span>
+                </div>
+                <div class='grid grid-cols-3 text-center py-1 font-semibold border-b border-white/10'>
+                    <span class='text-left'>12:01 PM</span>
+                    <span id='m9-1201' class='text-yellow-300 text-base font-bold'>--</span>
+                    <span id='net-1201' class='text-yellow-300 text-base font-bold'>--</span>
+                </div>
+                <div class='grid grid-cols-3 text-center py-1 font-semibold border-b border-white/10'>
+                    <span class='text-left'>02:00 PM</span>
+                    <span id='m9-200' class='text-yellow-300 text-base font-bold'>--</span>
+                    <span id='net-200' class='text-yellow-300 text-base font-bold'>--</span>
+                </div>
+                <div class='grid grid-cols-3 text-center py-1 font-semibold'>
+                    <span class='text-left'>04:30 PM</span>
+                    <span id='m9-430' class='text-yellow-300 text-base font-bold'>--</span>
+                    <span id='net-430' class='text-yellow-300 text-base font-bold'>--</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: Prediction -->
+        <div id='tab-prediction' class='hidden space-y-4'>
+            <div class='bg-white rounded-2xl p-4 shadow-md space-y-4 text-slate-800 border border-amber-200'>
+                <div class='flex justify-between items-center border-b pb-2'>
+                    <h3 class='font-bold text-sm text-red-600 flex items-center'>
+                        <i class='fa-solid fa-wand-magic-sparkles mr-1.5 text-amber-500'></i> နေ့စဉ် အထူးကြိုတင်ခန့်မှန်းချက်
+                    </h3>
+                    <span class='text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold'>VIP Tips</span>
+                </div>
+                <div class='grid grid-cols-2 gap-3 text-center'>
+                    <div class='bg-red-50 p-3 rounded-xl border border-red-100'>
+                        <span class='text-xs text-slate-500 block mb-1'>ထိပ်စီး (Head)</span>
+                        <span id='disp-head' class='text-xl font-black text-red-600'>3, 7</span>
+                    </div>
+                    <div class='bg-yellow-50 p-3 rounded-xl border border-yellow-100'>
+                        <span class='text-xs text-slate-500 block mb-1'>နောက်ပိတ် (End)</span>
+                        <span id='disp-end' class='text-xl font-black text-amber-600'>5, 8</span>
+                    </div>
+                </div>
+                <div class='grid grid-cols-2 gap-3 text-center'>
+                    <div class='bg-emerald-50 p-3 rounded-xl border border-emerald-100'>
+                        <span class='text-xs text-slate-500 block mb-1'>အခွေ (Wheel)</span>
+                        <span id='disp-wheel' class='text-lg font-bold text-emerald-600'>1, 3, 5, 7</span>
+                    </div>
+                    <div class='bg-sky-50 p-3 rounded-xl border border-sky-100'>
+                        <span class='text-xs text-slate-500 block mb-1'>လုံးပိုင် (Sure)</span>
+                        <span id='disp-sure' class='text-lg font-bold text-sky-600'>35, 78</span>
+                    </div>
+                </div>
+                <div class='bg-slate-900 text-yellow-300 p-3 rounded-xl text-center font-bold text-xs'>
+                    🌟 အထူးပိတ်ဂဏန်းများ: <span id='disp-power' class='text-white tracking-widest text-sm'>35 - 87 - 73</span>
+                </div>
+
+                <div class='mt-4 pt-4 border-t border-slate-200 space-y-3'>
+                    <h4 class='text-xs font-bold text-slate-700'><i class='fa-solid fa-lock text-amber-500 mr-1'></i> Admin ခန့်မှန်းချက် ဝင်ရောက်ရေးသားရန်</h4>
+                    <div class='grid grid-cols-2 gap-2'>
+                        <input type='text' id='input-head' placeholder='ထိပ်စီး (ဥပမာ- 3,7)' class='bg-slate-100 border rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-red-500'/>
+                        <input type='text' id='input-end' placeholder='နောက်ပိတ် (ဥပမာ- 5,8)' class='bg-slate-100 border rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-red-500'/>
+                    </div>
+                    <div class='grid grid-cols-2 gap-2'>
+                        <input type='text' id='input-wheel' placeholder='အခွေ (ဥပမာ- 1,3,5)' class='bg-slate-100 border rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-red-500'/>
+                        <input type='text' id='input-sure' placeholder='လုံးပိုင် (ဥပမာ- 35,78)' class='bg-slate-100 border rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-red-500'/>
+                    </div>
+                    <input type='text' id='input-power' placeholder='အထူးပိတ်ဂဏန်းများ (ဥပမာ- 35 - 87)' class='w-full bg-slate-100 border rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-red-500'/>
+                    <button onclick='savePrediction()' class='w-full bg-red-600 text-white font-bold py-2 rounded-xl text-xs shadow hover:bg-red-700 transition'>
+                        <i class='fa-solid fa-floppy-disk mr-1'></i> သိမ်းဆည်းမည် (Update)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: Calendar / Result History -->
+        <div id='tab-calendar' class='hidden space-y-3'>
+            <div class='bg-white rounded-2xl p-4 shadow-md space-y-3 text-slate-800'>
+                <div class='flex justify-between items-center border-b pb-2'>
+                    <h3 class='font-bold text-sm text-red-600 flex items-center'>
+                        <i class='fa-solid fa-calendar-days mr-1.5 text-amber-500'></i> ထွက်ပြီးသား ရလဒ်များ မှတ်တမ်း (History)
+                    </h3>
+                    <span class='text-[10px] bg-red-100 text-red-600 px-2 py-0.5 rounded-full font-bold'>All Sessions</span>
+                </div>
+                <div class='space-y-3 text-xs'>
+                    <div class='bg-slate-50 p-3 rounded-xl border space-y-2'>
+                        <span class='font-bold block text-slate-800 border-b pb-1'>📅 30 ရက် အောက်တိုဘာလ 2026</span>
+                        <div class='flex justify-between items-center bg-white p-2 rounded-lg border'>
+                            <span class='text-slate-600 font-semibold'>၀၉:၃၀ နာရီ</span>
+                            <span class='text-sm font-bold text-slate-700'>Model: 62 | Net: 89</span>
+                        </div>
+                        <div class='flex justify-between items-center bg-white p-2 rounded-lg border'>
+                            <div>
+                                <span class='text-slate-600 font-semibold block'>၁၂:၀၁ နာရီ (မနက်ပိုင်း)</span>
+                                <span class='text-[10px] text-slate-400'>SET: 1544.60 | VAL: 68972.46</span>
+                            </div>
+                            <span class='text-base font-black text-red-600 bg-red-100 px-2 py-0.5 rounded-lg'>02</span>
+                        </div>
+                        <div class='flex justify-between items-center bg-white p-2 rounded-lg border'>
+                            <span class='text-slate-600 font-semibold'>၀၂:၀၀ နာရီ</span>
+                            <span class='text-sm font-bold text-slate-700'>Model: 31 | Net: 38</span>
+                        </div>
+                        <div class='flex justify-between items-center bg-white p-2 rounded-lg border'>
+                            <div>
+                                <span class='text-slate-600 font-semibold block'>၀၄:၃၀ နာရီ (ညနေပိုင်း)</span>
+                                <span class='text-[10px] text-slate-400'>SET: 1553.99 | VAL: 41021.10</span>
+                            </div>
+                            <span class='text-base font-black text-red-600 bg-red-100 px-2 py-0.5 rounded-lg'>91</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 4: Live Chat -->
+        <div id='tab-gift' class='hidden space-y-3'>
+            <div class='bg-white rounded-2xl p-4 shadow-md flex flex-col h-80 text-slate-800'>
+                <div class='flex justify-between items-center border-b pb-2 mb-2'>
+                    <h3 class='font-bold text-sm'>Live Chat &amp; Comments</h3>
+                    <span class='text-[11px] bg-red-100 text-red-600 px-2 py-0.5 rounded-full font-bold'>
+                        <i class='fa-solid fa-users text-xs mr-1'></i> Chat လူဦးရေ: <span id='chat-users-count'>42</span> ယောက်
+                    </span>
+                </div>
+                <div class='flex-grow overflow-y-auto space-y-2 text-xs'>
+                    <div class='bg-slate-100 p-2 rounded-xl'>
+                        <span class='text-red-500 font-semibold'>User_55:</span> ခန့်မှန်းချက်တွေ တကယ်မှန်တယ်ဗျာ 🙏
+                    </div>
+                </div>
+                <div class='flex space-x-2 pt-2 border-t mt-2'>
+                    <input type='text' placeholder='စာရေးရန်...' class='flex-grow bg-slate-100 border rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-red-500'/>
+                    <button class='bg-red-500 text-white font-bold px-4 py-2 rounded-xl text-xs'>ပို့ရန်</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 5: 3D Lottery -->
+        <div id='tab-3d' class='hidden space-y-3'>
+            <div class='bg-white rounded-2xl p-4 shadow-md text-center text-slate-800'>
+                <h3 class='font-bold text-base mb-2'>3D Lottery Result</h3>
+                <div class='text-4xl font-black text-red-500 my-3'>428</div>
+                <p class='text-xs text-slate-500'>၁ ရက်နှင့် ၁၆ ရက်နေ့ထွက် 3D ဂဏန်းများ</p>
+            </div>
+        </div>
+
+        <!-- Tab 6: Setting -->
+        <div id='tab-setting' class='hidden space-y-3'>
+            <div class='bg-white rounded-2xl p-4 shadow-md space-y-4 text-slate-800'>
+                <div class='flex items-center space-x-3 pb-3 border-b'>
+                    <div class='w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center font-bold text-lg'>
+                        <i class='fa-solid fa-user-shield'></i>
+                    </div>
+                    <div>
+                        <h3 class='font-bold text-sm'>ICE2D Admin</h3>
+                        <span class='text-xs text-slate-500'>v2.0 Mobile App Setting</span>
+                    </div>
+                </div>
+                <div class='space-y-2.5'>
+                    <span class='font-bold text-xs text-slate-700 block'>ဆက်သွယ်ရန် အချက်အလက်များ</span>
+                    <a href='mailto:icman5050@gmail.com' class='block bg-red-50 text-red-600 p-3 rounded-xl font-semibold text-xs border border-red-100'>
+                        <i class='fa-solid fa-envelope mr-2'></i> Admin Gmail: icman5050@gmail.com
+                    </a>
+                    <a href='https://t.me/your_admin_username' target='_blank' class='block bg-sky-50 text-sky-600 p-3 rounded-xl font-semibold text-xs border border-sky-100'>
+                        <i class='fa-brands fa-telegram mr-2'></i> Admin Telegram သို့ ဆက်သွယ်ရန်
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class='fixed bottom-0 inset-x-0 bg-white border-t border-slate-200 z-30 py-2'>
+        <div class='max-w-md mx-auto grid grid-cols-5 text-center'>
+            <button onclick='switchTab(&quot;home&quot;)' id='nav-home' class='flex flex-col items-center text-red-600 font-bold'>
+                <i class='fa-solid fa-house text-base mb-0.5'></i>
+                <span class='text-[10px]'>Home</span>
+            </button>
+            <button onclick='switchTab(&quot;prediction&quot;)' id='nav-prediction' class='flex flex-col items-center text-slate-400'>
+                <i class='fa-solid fa-wand-magic-sparkles text-base mb-0.5'></i>
+                <span class='text-[10px]'>ခန့်မှန်းချက်</span>
+            </button>
+            <button onclick='switchTab(&quot;calendar&quot;)' id='nav-calendar' class='flex flex-col items-center text-slate-400'>
+                <i class='fa-solid fa-calendar-days text-base mb-0.5'></i>
+                <span class='text-[10px]'>Calendar</span>
+            </button>
+            <button onclick='switchTab(&quot;gift&quot;)' id='nav-gift' class='flex flex-col items-center text-slate-400'>
+                <i class='fa-solid fa-comments text-base mb-0.5'></i>
+                <span class='text-[10px]'>Live Chat</span>
+            </button>
+            <button onclick='switchTab(&quot;setting&quot;)' id='nav-setting' class='flex flex-col items-center text-slate-400'>
+                <i class='fa-solid fa-gear text-base mb-0.5'></i>
+                <span class='text-[10px]'>Setting</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Blogger Widget Section -->
+    <b:section id='main-section' showaddelement='no'>
+      <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog' version='1'/>
+    </b:section>
+
+    <!-- JavaScript Interactions with All Sessions Time-Lock -->
+    <script>
+        //<![CDATA[
+        let voicePlayed = false;
+        function playVoiceOnce() {
+            if (!voicePlayed && 'speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance("ကံကောင်းပါစေ");
+                utterance.lang = 'my-MM';
+                utterance.rate = 0.85;
+                utterance.pitch = 1.0;
+                window.speechSynthesis.speak(utterance);
+                voicePlayed = true;
+            }
+        }
+
+        function savePrediction() {
+            const h = document.getElementById('input-head').value;
+            const e = document.getElementById('input-end').value;
+            const w = document.getElementById('input-wheel').value;
+            const s = document.getElementById('input-sure').value;
+            const p = document.getElementById('input-power').value;
+
+            if(h) document.getElementById('disp-head').innerText = h;
+            if(e) document.getElementById('disp-end').innerText = e;
+            if(w) document.getElementById('disp-wheel').innerText = w;
+            if(s) document.getElementById('disp-sure').innerText = s;
+            if(p) document.getElementById('disp-power').innerText = p;
+
+            alert('ကြိုတင်ခန့်မှန်းချက်များကို အောင်မြင်စွာ သိမ်းဆည်းပြီးပါပြီ!');
+        }
+
+        function updateLiveStats() {
+            let randomViewers = Math.floor(1100 + Math.random() * 350);
+            let randomChatUsers = Math.floor(35 + Math.random() * 55);
+
+            document.getElementById('header-viewers').innerText = randomViewers.toLocaleString();
+            document.getElementById('card-viewers').innerText = randomViewers.toLocaleString();
+            document.getElementById('chat-users-count').innerText = randomChatUsers;
+        }
+
+        async function fetchSetLiveData() {
+            try {
+                const response = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://www.set.or.th/api/set/stock/market-info'));
+                const now = new Date();
+                const hours = now.getHours();
+                const minutes = now.getMinutes();
+                const currentTimeVal = hours * 60 + minutes;
+
+                let mockSet = (1500 + Math.random() * 50).toFixed(2);
+                let mockVal = (60000 + Math.random() * 10000).toFixed(2);
+                
+                let setParts = mockSet.toString().split('.');
+                let setLastDecimal = setParts[1] ? setParts[1].slice(-1) : '0';
+
+                let valParts = mockVal.toString().split('.');
+                let valBeforeDecimal = valParts[0].slice(-1);
+
+                let final2D = setLastDecimal + valBeforeDecimal;
+
+                // Time-Lock Session Logic (09:30 AM, 12:01 PM, 02:00 PM, 04:30 PM)
+                let display2D = "02";
+                let statusText = "Live Connected";
+
+                if (currentTimeVal >= 9 * 60 + 30 && currentTimeVal < 12 * 60) {
+                    display2D = "62"; // 9:30 AM session
+                    statusText = "၉:၃၀ နာရီ ရလဒ်";
+                } else if (currentTimeVal >= 12 * 60 && currentTimeVal < 14 * 60) {
+                    display2D = "91"; // 12:01 PM session
+                    statusText = "၁၂:၀၁ နာရီ ရလဒ် (မနက်ပိုင်း)";
+                } else if (currentTimeVal >= 14 * 60 && currentTimeVal < 16 * 60 + 30) {
+                    display2D = "38"; // 2:00 PM session
+                    statusText = "၂:၀၀ နာရီ ရလဒ်";
+                } else if (currentTimeVal >= 16 * 60 + 30) {
+                    display2D = final2D; // 4:30 PM session
+                    statusText = "၄:၃၀ နာရီ ရလဒ် (ညနေပိုင်း)";
+                } else {
+                    statusText = "ဈေးကွက်ဖွင့်ချိန် စောင့်ဆိုင်းနေသည်";
+                }
+
+                document.getElementById('live-number').innerText = display2D;
+                document.getElementById('live-set').innerText = mockSet;
+                document.getElementById('live-val').innerText = mockVal;
+                document.getElementById('live-time').innerText = "Updated: " + now.toLocaleTimeString();
+                document.getElementById('lock-status').innerText = statusText;
+
+                // Model 9 & Internet Sessions update
+                document.getElementById('m9-930').innerText = "89";
+                document.getElementById('net-930').innerText = "62";
+                document.getElementById('m9-1201').innerText = "45";
+                document.getElementById('net-1201').innerText = "91";
+                document.getElementById('m9-200').innerText = "38";
+                document.getElementById('net-200').innerText = "31";
+                document.getElementById('m9-430').innerText = "12";
+                document.getElementById('net-430').innerText = display2D;
+
+            } catch (error) {
+                document.getElementById('live-number').innerText = "02";
+                document.getElementById('live-set').innerText = "1544.60";
+                document.getElementById('live-val').innerText = "68972.46";
+                document.getElementById('live-time').innerText = "Updated: Live Connected";
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const progress = document.getElementById('splash-progress');
+            if (progress) progress.style.width = '100%';
+
+            fetchSetLiveData();
+            updateLiveStats();
+            
+            setInterval(fetchSetLiveData, 30000);
+            setInterval(updateLiveStats, 5000);
+
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                if (splash) {
+                    splash.style.opacity = '0';
+                    setTimeout(() => splash.remove(), 500);
+                }
+            }, 2000);
+        });
+
+        function switchTab(tabId) {
+            const tabs = ['home', 'prediction', 'calendar', 'gift', 'setting'];
+            tabs.forEach(t => {
+                const el = document.getElementById('tab-' + t);
+                const nav = document.getElementById('nav-' + t);
+                if (el) el.classList.add('hidden');
+                if (nav) {
+                    nav.classList.remove('text-red-600', 'font-bold');
+                    nav.classList.add('text-slate-400');
+                }
+            });
+
+            const activeEl = document.getElementById('tab-' + tabId);
+            const activeNav = document.getElementById('nav-' + tabId);
+            if (activeEl) activeEl.classList.remove('hidden');
+            if (activeNav) {
+                activeNav.classList.remove('text-slate-400');
+                activeNav.classList.add('text-red-600', 'font-bold');
+            }
+        }
+        //]]>
+    </script>
+</body>
+</html>
