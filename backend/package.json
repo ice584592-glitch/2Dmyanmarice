@@ -1,0 +1,9 @@
+{
+  "name": "myanmar-2d3d-api-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Small server-side proxy so the SETLive API key is not stored in the Android app",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "dependencies": { "express": "^4.21.2" }
+}

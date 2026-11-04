@@ -1,0 +1,28 @@
+package com.myanmar.twodthreed
+
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
+import com.google.gson.JsonObject
+
+interface ResultsApi {
+    @GET("api/v1/twod-result-live") suspend fun live2d(): JsonObject
+    @GET("api/v1/twod-results") suspend fun history2d(@Query("page") page: Int = 1): JsonObject
+    @GET("api/v1/twod-ticks") suspend fun ticks(): JsonObject
+    @GET("api/v1/twod-ticks/{number}") suspend fun ticksFor(@Path("number") number: String): JsonObject
+    @GET("api/v1/threed-result-latest") suspend fun latest3d(): JsonObject
+    @GET("api/v1/threed-results") suspend fun history3d(@Query("page") page: Int = 1): JsonObject
+    @GET("api/v1/threed-results/{date}") suspend fun result3d(@Path("date") date: String): JsonObject
+}
+
+object ApiClient {
+    val api: ResultsApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(BuildConfig.API_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ResultsApi::class.java)
+    }
+}
